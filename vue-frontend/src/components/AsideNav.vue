@@ -10,9 +10,9 @@
             </div>
             <div class="dash-nav-row">
                 <div class="nav-col">
-                <button class="nav-btn">Dashboard</button>
-                <button class="nav-btn">Manage Profile</button>
-                <button class="nav-btn">Alumni/Staff</button>
+                <button class="nav-btn"><router-link to="/dashboard">Dashboard</router-link></button>
+                <button class="nav-btn"><router-link to="/manage-profile">Manage Profile</router-link></button>
+                <button class="nav-btn"><router-link to="/users">Alumni/Staff</router-link></button>
                 </div>
             </div>
             <div class="dash-nav-row">

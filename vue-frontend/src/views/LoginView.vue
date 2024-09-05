@@ -2,9 +2,9 @@
     <section id="login">
         <div class="login-form">
             <h1 class="form-head">Login</h1>
-            <input type="email" placeholder="Email address">
-            <input type="password" placeholder="Password">
-            <button><router-link to="/dashboard">Login </router-link></button>
+            <input type="email" placeholder="Email address" v-model="email_add" required>
+            <input type="password" placeholder="Password" v-model="password" required>
+            <button @click="loginUser(email_add,password)">Login</button>
             <label > Don't have an account yet? <router-link to="/register">Click here to register</router-link></label>
             <label > Forgot your password? <a href="#forgottenPassword">Click here to reset it</a></label>
         </div>
@@ -12,7 +12,21 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            email_add:'',
+            password:'',
+        }
+    },
+   methods: {
+     loginUser(email,password) {
+        let email_add = email
+        let user_pass = password
+        if(!email || !user_pass){alert ("Please make sure both fields are filled in")}
+        else{this.$store.dispatch('loginUser', {email_add, user_pass})}
+    }
     
+   }, 
 }
 </script>
 <style>

@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import FaqView from '../views/FaqView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import ManageProfileView from '../views/ManageProfileView.vue'
+import UsersView from '../views/UsersView.vue'
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
     path: '/manage-profile',
     name: 'manage-profile',
     component: ManageProfileView
+  },
+  {
+    path: '/users',
+    name: 'users',
+    component: UsersView
   },
 ]
 

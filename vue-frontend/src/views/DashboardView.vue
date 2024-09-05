@@ -1,12 +1,14 @@
-<template lang="">
+<template lang="" v-show="this.$store.state.showCont == 1">
     <section id="dashboard">
+        <BookingModal/>
     <AsideNav/>
-        <main id="dash-content">
+        <main id="dash-content" v-if="$cookies.get('token')">
             <div class="main-dash-cont">
                 <div class="upcoming-head">
                     <h2>Upcoming Meetings</h2>
                     <!-- this should be a component attached to a modal -->
                     <button>New Meeting</button>
+                    
                 </div>
                 <div class="upcoming-content">
                     <UpcomingCard/>
@@ -18,8 +20,20 @@
 <script>
 import AsideNav from '@/components/AsideNav.vue';
 import UpcomingCard from '@/components/UpcomingCard.vue';
+import BookingModal from '@/components/BookingModalComp.vue';
 export default {
-    components:{ AsideNav,UpcomingCard,},
+    components:{ AsideNav,UpcomingCard, BookingModal },
+    methods: {
+      
+    },
+    computed: {
+        showCont(){
+           return this.$store.dispatch('showCont')
+        }
+    },
+    mounted() {
+        this.showCont
+},
     
 }
 </script>

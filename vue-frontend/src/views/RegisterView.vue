@@ -3,18 +3,18 @@
         <div class="register-col">
             <div class="register-form">
                 <h1 class="form-head">Register</h1>
-                <input class="form-inputs" type="text" placeholder="First Name">
-                <input class="form-inputs" type="text" placeholder="Middle Name(optional)">
-                <input class="form-inputs" type="text" placeholder="Last Name">
-                <select class="form-inputs" name="role" id="role">
-                    <option>Role</option>
+                <input class="form-inputs" type="text" placeholder="First Name" v-model="fname">
+                <input class="form-inputs" type="text" placeholder="Middle Name(optional)" v-model="mname">
+                <input class="form-inputs" type="text" placeholder="Last Name" v-model="lname">
+                <select class="form-inputs" name="role" id="role" v-model="role">
+                    <option disabled value="">Role</option>
                     <option value="student">Student</option>
                     <option value="staff">Staff</option> 
                 </select>
-                <input class="form-inputs" type="email" placeholder="Email Address">
-                <input class="form-inputs" type="text" placeholder="Password">
+                <input class="form-inputs" type="email" placeholder="Email Address" v-model="email">
+                <input class="form-inputs" type="text" placeholder="Password" v-model="password">
                 <label>Already have an account? <router-link to="/login">Login </router-link> </label>
-                <button>register</button>
+                <button @click="registerUser">register</button>
             </div>
         </div>
         <div class="register-col register-right">
@@ -24,7 +24,23 @@
 </template>
 <script>
 export default {
-    
+    data() {
+        return {
+            fname:'',
+            mname:'',
+            lname:'',
+            role:'',
+            email:'',
+            password:'',
+
+        }
+    },
+    methods:{
+        registerUser(){
+            console.log(this.fname,this.mname,this.lname,this.role,this.email,this.password);
+            this.$store.dispatch('registerUser', {first_name:this.fname,middle_name:this.mname,last_name:this.lname,user_role:this.role,email_add:this.email,user_pass:this.password })
+        }
+    }
 }
 </script>
 <style>
