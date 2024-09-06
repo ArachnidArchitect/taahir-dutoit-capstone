@@ -1,17 +1,24 @@
 <template lang="" v-show="this.$store.state.showCont == 1">
     <section id="dashboard">
-        <BookingModal/>
+        <booking-modal v-if="booking"></booking-modal>
     <AsideNav/>
         <main id="dash-content" v-if="$cookies.get('token')">
             <div class="main-dash-cont">
                 <div class="upcoming-head">
                     <h2>Upcoming Meetings</h2>
                     <!-- this should be a component attached to a modal -->
-                    <button>New Meeting</button>
+                    <button @click="booking = !booking">New Meeting</button>
                     
                 </div>
-                <div class="upcoming-content">
-                    <UpcomingCard/>
+                <div class="upcoming-content" v-for="booking in allBookings()" :key="booking">
+                    <upcoming-card>
+                        <template #recipient>{{booking.recipient_name}}</template>
+                        <template #requesting>{{booking.requesting_name}}</template>
+                        <template #type>Physical</template>
+                        <template #time_allocated>{{booking.allocated_minutes}}</template>
+                        <template #topic>{{booking.topic}}</template>
+                        <template #date>{{booking.booking_date}}</template>
+                    </upcoming-card>
                 </div>
             </div>
         </main>
@@ -23,16 +30,29 @@ import UpcomingCard from '@/components/UpcomingCard.vue';
 import BookingModal from '@/components/BookingModalComp.vue';
 export default {
     components:{ AsideNav,UpcomingCard, BookingModal },
-    methods: {
-      
-    },
-    computed: {
-        showCont(){
-           return this.$store.dispatch('showCont')
+    data() {
+        return {
+            booking:false,
+            books:0,
         }
     },
+    methods: {
+        allBookings(){
+            return this.$store.state.bookings
+        },
+        async showCont(){
+           return this.$store.dispatch('showCont')
+        },
+       async showBookings(){
+            await this.showCont()
+            return this.$store.dispatch('showBookings')
+        }
+    },
+    computed: {
+       
+    },
     mounted() {
-        this.showCont
+        this.showBookings()
 },
     
 }
@@ -53,6 +73,7 @@ body{
 #dashboard{
     display: flex;
 }
+
 
 
 /* main section styling */

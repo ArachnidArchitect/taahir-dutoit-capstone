@@ -1,5 +1,5 @@
-<template lang="">
-    <div class="overlay">
+<template id="bookingmodal">
+    <div id="overlay">
         <div class="modal">
             <div class="modal-row"><h1> </h1><h1>NEW MEETING</h1><h1 @click="closeModal()">X</h1></div>
                 <div class="modal-col" v-if="display==1">
@@ -29,7 +29,7 @@
                         <tr class="slot-row" v-for="(slot, index) in availabilities()" :key="index">
                             <td class="storedDate" >{{slot.date.substring(0,10)}}</td>
                             <td>{{slot.slot_name}}</td>
-                            <td><input type="number" class="min" :value="slot.minutes_available" :max="slot.minutes_available" ></td>
+                            <td><input type="number" class="min" :value="slot.minutes_available" :max="slot.minutes_available" step="5" ></td>
                             <td><input type="radio" class="radios" :id="`radio${index}`" name="selectedItem" @click="currDate= slot.date.substring(0,10), currIndex = index, slotId = slot.slot_id"></td>
                         </tr>
                     </table>
@@ -59,7 +59,7 @@ export default {
 
     methods: {
         closeModal() {
-            let overlay = document.querySelector('.overlay')
+            let overlay = document.querySelector('#overlay')
             overlay.style.display = "none"
         },
         checkAvailability(){
@@ -107,7 +107,7 @@ export default {
         padding:0;
         margin:0;
     }
-    .overlay{
+    #overlay{
         background-color: rgba(0, 0, 0, 0.257);
         width:100%;
         height: 100%;

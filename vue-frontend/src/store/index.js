@@ -10,6 +10,7 @@ export default createStore({
     showCont:0,
     availabilities:null,
     currUser:null,
+    bookings:null,
   },
   getters: {
   },
@@ -24,6 +25,9 @@ export default createStore({
     },
     setAvailabilities(state, payload){
       state.availabilities = payload
+    },
+    setBookings(state,payload){
+      state.bookings = payload
     }
   },
   actions: {
@@ -94,6 +98,7 @@ export default createStore({
         let data =  await response.json()
         console.log(data)
         commit('setCurrUser', data)
+        console.log('function 1 is complete')
          
     },
 // check availabilities
@@ -105,7 +110,7 @@ async getAvailability({commit}, {id, month}){
       'cookie': cookies.get('token')
     }
   }
-    let response = await fetch(`http://localhost:5005/availabilities/${id}/${month}`, requestOptions)
+    let response = await fetch(`http://localhost:5005/availabilities/fetchOpenings/${id}/${month}`, requestOptions)
     let data = await response.json()
     console.log(data)
     commit('setAvailabilities', data)
@@ -123,7 +128,24 @@ async getAvailability({commit}, {id, month}){
     let response = await fetch("http://localhost:5005/availabilities/book", requestOptions)
     let data = await response.json()
     commit('setServeResponse', data)
-  }
+  },
+  async showBookings({commit}){
+    const requestOptions = {
+      method: "GET",
+      credentials:'include',
+      headers: { "Content-Type": "application/json" ,
+        'cookie': cookies.get('token')
+      }
+    }
+    const id = this.state.currUser.user_id
+    let response = await fetch(`http://localhost:5005/availabilities/myBookings/${id}`, requestOptions)
+    let data = await response.json()
+      commit('setBookings', data)
+    
+    
+  },
+
+
 },
   modules: {
   }
