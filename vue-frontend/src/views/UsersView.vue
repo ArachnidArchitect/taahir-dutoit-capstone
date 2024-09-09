@@ -2,26 +2,30 @@
     <section id="users"  v-if="$cookies.get('token')">
     <AsideNav/>
     <main id="users-cont">
-        <section id='users-staff' class="users-section">
+        <section id='users-staff' class="users-section" v-if="staff().length>0">
             <div class="users-col">
                 <div class="users-card-head"><h1>Staff</h1></div>
                 <div class="users-grid">
-                    <div class="users-card">
-                        <div class="users-card-col"><img src="../assets/Mask.png" alt=""></div>
+                    <div class="users-card" v-for="user in staff()" :key="user">
+                        <div class="users-card-col"><img :src="profile" alt=""></div>
                         <div class="users-card-col">
-                            <div class="users-card-row card-row-name">Matthew Brown</div>
-                            <div class="users-card-row card-row-title">Lecturer</div>
+                            <div class="users-card-row card-row-name">{{user.first_name +' '+ user.last_name}}</div>
+                            <div class="users-card-row card-row-title">{{user.user_role}}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <section id='users-students' class="users-section" v-if="users().length>0">
+        <div v-else>
+            <!-- card placeholders will go here while loading -->
+        <h1>just loading</h1>
+    </div>
+        <section id='users-students' class="users-section" v-if="students().length>0">
             <div class="users-col">
                 <div class="users-card-head"><h1>Students/Alumni</h1></div>
                 <div class="users-grid">
-                    <div class="users-card" v-for="user in users()" :key="user">
-                        <div class="users-card-col"><img src="" alt=""></div>
+                    <div class="users-card" v-for="user in students()" :key="user">
+                        <div class="users-card-col"><img :src="profile" alt=""></div>
                         <div class="users-card-col">
                             <div class="users-card-row card-row-name">{{user.first_name +' '+ user.last_name}}</div>
                             <div class="users-card-row card-row-title">{{user.user_role}}</div>
@@ -50,25 +54,38 @@ export default {
     components:{ AsideNav},
     data() {
         return {
-            loading: true,
+            loading1: true,
+            loading2: true,
+            profile:'https://cdn-icons-png.flaticon.com/512/10412/10412383.png'
         }
     },
   methods:{
-    users(){
-      console.log('test'+ this.$store.state.users)
-      let data = this.$store.state.users
-            this.loading = false
+    students(){
+      console.log('test'+ this.$store.state.students)
+      let data = this.$store.state.students
+            this.loading1 = false
             return data
-        }
+        },
+    staff(){
+      console.log('test'+ this.$store.state.staff)
+      let data = this.$store.state.staff
+            this.loading2 = false
+            return data
+        },
+        filteredRoles(role){
+      return this.$store.dispatch('filteredRoles',role);  
+    },
+
   },
   computed:{
     getUsers(){
       return this.$store.dispatch('getUsers');
-    }
+    },
   },
   mounted(){
-   this.getUsers
-   this.users()
+    this.filteredRoles('staff')
+    this.filteredRoles('student')
+   this.students()
   }
 }
 </script>

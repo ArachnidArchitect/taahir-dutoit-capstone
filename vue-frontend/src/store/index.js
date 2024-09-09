@@ -11,6 +11,8 @@ export default createStore({
     availabilities:null,
     currUser:null,
     bookings:null,
+    students:[],
+    staff:[],
   },
   getters: {
   },
@@ -28,6 +30,12 @@ export default createStore({
     },
     setBookings(state,payload){
       state.bookings = payload
+    },
+    setStaff(state,payload){
+      state.staff = payload
+    },
+    setStudents(state,payload){
+      state.students = payload
     }
   },
   actions: {
@@ -45,6 +53,26 @@ export default createStore({
       const data = await response.json()
      if (!data.message) {
        commit('setUsers', data)
+     }
+    },
+    async filteredRoles({commit},role){
+      console.log('students')
+      console.log(cookies.get('token'))
+      const requestOptions = {
+        method: "GET",
+        credentials:'include',
+        headers: { "Content-Type": "application/json" ,
+          'cookie': cookies.get('token')
+        }}
+      const response = await fetch('http://localhost:5005/users/filtered/'+role, requestOptions)
+      const data = await response.json()
+      console.log('students', data)
+     if (!data.message) {
+      if(role == 'student'){
+        commit('setStudents', data)
+      }else if(role == 'staff'){
+        commit('setStaff', data)
+      }
      }
     },
     async loginUser({commit},{email_add, user_pass}) {

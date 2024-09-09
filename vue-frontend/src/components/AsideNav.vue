@@ -1,10 +1,10 @@
 <template>
    <aside id="dash-nav">
             <div class="dash-nav-row">
-                <img src="../assets/Mask.png" alt="" width="70px">
+                <img :src="profile" alt="" width="70px">
                 <div class="nav-col nav-profile">
-                    <h3>Matthew Brown</h3>
-                    <h6>Lecturer</h6>
+                    <h3>{{ fullName }}</h3>
+                    <h6>{{title}}</h6>
                 </div>
 
             </div>
@@ -20,6 +20,33 @@
             </div>
         </aside>       
 </template>
+<script>
+export default{
+    data() {
+        return {
+            fullName:'waiting for data...',
+            title:'waiting for data...',
+            profile:'https://cdn-icons-png.flaticon.com/512/10412/10412383.png',
+        }
+    },
+    methods: {
+         async showCont(){
+           return this.$store.dispatch('showCont')
+        },
+        async currUser(){
+             await this.showCont()
+            let user = this.$store.state.currUser
+            this.fullName = user.first_name + ' '+user.last_name
+            this.title = user.user_role
+            return this.$store.state.currUser
+        }
+    },
+    mounted() {
+        // this.showCont()
+        this.currUser()
+    },
+}
+</script>
 <style>
 *{
     box-sizing:border-box;

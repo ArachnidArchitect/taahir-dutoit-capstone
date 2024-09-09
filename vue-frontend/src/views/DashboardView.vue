@@ -41,6 +41,7 @@ export default {
             return this.$store.state.bookings
         },
         async showCont(){
+        console.log('dash')
            return this.$store.dispatch('showCont')
         },
        async showBookings(){
