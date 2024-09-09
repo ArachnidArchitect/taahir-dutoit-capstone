@@ -1,5 +1,5 @@
 import { hash } from "bcrypt";
-import { getUsersDb, getUserEmailDb, registerUserDb } from "../model/userDb.js";
+import { getUsersDb, getUserEmailDb, registerUserDb, filteredRolesDb } from "../model/userDb.js";
 
 const getUsers = async (req,res)=>{
    res.json(await getUsersDb())
@@ -15,6 +15,11 @@ const getUserEmail = async (req, res)=>{
    res.status(200)
    res.send('okay')
 
+}
+const filteredRoles = async (req,res)=>{
+   let role = req.params.role
+   console.log(role)
+   res.json(await filteredRolesDb(role))
 }
 
 const registerUser = async(req,res)=>{
@@ -39,4 +44,4 @@ const loginUser = async(req,res)=>{
    })
 }
 
-export {getUsers,getUserEmail, registerUser,loginUser}
+export {getUsers,getUserEmail, registerUser,loginUser, filteredRoles}
