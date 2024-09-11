@@ -17,7 +17,8 @@
                         <template #type>Physical</template>
                         <template #time_allocated>{{booking.allocated_minutes}}</template>
                         <template #topic>{{booking.topic}}</template>
-                        <template #date>{{booking.booking_date}}</template>
+                        <template #date>{{booking.booking_date.substring(0,10)}}</template>
+                        <template #room_num>{{Math.floor(Math.random() * (6 - 1) + 1)}}</template>
                     </upcoming-card>
                 </div>
             </div>
@@ -124,6 +125,7 @@ body{
 .upcoming-card-title{
     font-size: 20px;
     text-decoration:underline;
+    text-align: left;
 }
 .upcoming-card-subtext{
     width:100%;

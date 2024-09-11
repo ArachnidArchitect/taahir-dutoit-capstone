@@ -71,11 +71,9 @@ export default {
             this.availabilities()
             this.display=2;
         },
-        makeBooking(){
-        //    console.log(document.querySelectorAll('.min')[this.currIndex].value)
-            // console.log(this.recipient, this.requesting, this.app_date, this.slot_id, this.min_allocated, this.topic)
-            console.log(this.person, this.$store.state.currUser.user_id, this.currDate, this.slotId, document.querySelectorAll('.min')[this.currIndex].value, this.topic)
-            this.$store.dispatch('makeBooking', {recipient:this.person, requesting:this.$store.state.currUser.user_id, app_date:this.currDate, slot_id:this.slotId, min_allocated:document.querySelectorAll('.min')[this.currIndex].value,topic: this.topic})
+       async  makeBooking(){
+        await  this.$store.dispatch('makeBooking', {recipient:this.person, requesting:this.$store.state.currUser.user_id, app_date:this.currDate, slot_id:this.slotId, min_allocated:document.querySelectorAll('.min')[this.currIndex].value,topic: this.topic})    
+            location.reload()
         },
     
     users(){
@@ -90,7 +88,8 @@ export default {
   },
   computed:{
     getUsers(){
-      return this.$store.dispatch('getUsers');
+      return this.$store.dispatch('getUsers')
+
     }
 
   },

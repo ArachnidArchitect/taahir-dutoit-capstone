@@ -10,9 +10,10 @@ export default createStore({
     showCont:0,
     availabilities:null,
     currUser:null,
-    bookings:null,
+    bookings:[],
     students:[],
     staff:[],
+    slots:null,
   },
   getters: {
   },
@@ -36,6 +37,9 @@ export default createStore({
     },
     setStudents(state,payload){
       state.students = payload
+    },
+    setSlots(state,payload){
+      state.slots = payload
     }
   },
   actions: {
@@ -129,7 +133,7 @@ export default createStore({
         console.log('function 1 is complete')
          
     },
-// check availabilities
+// availabilities
 async getAvailability({commit}, {id, month}){
   const requestOptions = {
     method: "GET",
@@ -143,6 +147,34 @@ async getAvailability({commit}, {id, month}){
     console.log(data)
     commit('setAvailabilities', data)
   },
+
+async fetchSlots({commit}){
+    let data = await (await fetch('http://localhost:5005/availabilities/fetchSlots')).json()
+    console.log('this is slots:',data)
+    commit('setSlots', data)
+
+  },
+async setAvailabilities({commit},{slot_id,date,minutes_available}){
+  const requestOptions = {
+    method: "POST",
+    credentials:'include',
+    headers: { "Content-Type": "application/json",
+      'cookie': cookies.get('token')
+    },
+    body: JSON.stringify({slot_id,date,minutes_available})
+  }
+  const response = await fetch("http://localhost:5005/availabilities/insert", requestOptions);
+  const data = await response.json();
+  try{
+  alert(data.message)
+  if (data.message == 'You have signed in successfully!') {
+    commit('setServeResponse', data.message)   
+  }
+ 
+  } catch(error){
+    alert(error)
+  }
+},
 // make booking
   async makeBooking({commit},{recipient, requesting, app_date, slot_id, min_allocated, topic}){
     const requestOptions = {
@@ -155,7 +187,18 @@ async getAvailability({commit}, {id, month}){
     }
     let response = await fetch("http://localhost:5005/availabilities/book", requestOptions)
     let data = await response.json()
-    commit('setServeResponse', data)
+    try{
+      alert(data.message)
+      if (data.message == 'You have signed in successfully!') {
+        commit('setBookings', data.myData) 
+      
+      }
+     
+      } catch(error){
+        alert(error)
+      }
+     
+
   },
   async showBookings({commit}){
     const requestOptions = {
@@ -169,6 +212,7 @@ async getAvailability({commit}, {id, month}){
     let response = await fetch(`http://localhost:5005/availabilities/myBookings/${id}`, requestOptions)
     let data = await response.json()
       commit('setBookings', data)
+     
     
     
   },

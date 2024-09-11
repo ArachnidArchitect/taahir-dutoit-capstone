@@ -10,7 +10,7 @@
                         </div>
                         <div class="upcoming-card-col">
                             <div class="upcoming-card-date"><slot name="date"></slot> </div>
-                            <div class="upcoming-card-loc">Room Number: 5</div>
+                            <div class="upcoming-card-loc">Room Number:<slot name="room_num"></slot></div>
                         </div>
                     </div>
 </template>

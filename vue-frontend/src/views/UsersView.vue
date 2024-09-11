@@ -25,7 +25,7 @@
                 <div class="users-card-head"><h1>Students/Alumni</h1></div>
                 <div class="users-grid">
                     <div class="users-card" v-for="user in students()" :key="user">
-                        <div class="users-card-col"><img :src="profile" alt=""></div>
+                        <div class="users-card-col"><img :src="user.user_profile" alt=""></div>
                         <div class="users-card-col">
                             <div class="users-card-row card-row-name">{{user.first_name +' '+ user.last_name}}</div>
                             <div class="users-card-row card-row-title">{{user.user_role}}</div>
@@ -56,7 +56,6 @@ export default {
         return {
             loading1: true,
             loading2: true,
-            profile:'https://cdn-icons-png.flaticon.com/512/10412/10412383.png'
         }
     },
   methods:{
