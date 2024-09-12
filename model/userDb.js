@@ -1,4 +1,5 @@
 import {pool} from '../config/config.js'
+import { updateUser } from '../controller/usersCont.js'
 
 const getUsersDb= async ()=>{
     let [data] = await pool.query('SELECT * FROM users')
@@ -17,7 +18,10 @@ const getUserDb = async (id)=>{
     let [[data]] = await pool.query('SELECT * FROM users WHERE user_id = ?',[id])
     return data
 }
-const registerUserDb = async(first_name, middle_name, last_name, user_role, email_add, user_pass)=>{
+const registerUserDb = async(first_name, middle_name, last_name, user_role, email_add, user_pass, user_id)=>{
     await pool.query('INSERT INTO users (first_name, middle_name, last_name, user_role, email_add, user_pass) VALUES (?,?,?,?,?,?);',[first_name, middle_name, last_name, user_role, email_add, user_pass])
 }
-export {getUsersDb, getUserDb, getUserEmailDb, registerUserDb, filteredRolesDb}
+const updateUserDb = async(user_id, first_name, middle_name, last_name, user_role, user_profile)=>{
+    await pool.query('update users set first_name=?, middle_name=?, last_name=?, user_role=?, user_profile=? where user_id=?',[first_name, middle_name, last_name, user_role, user_profile,user_id])
+}
+export {getUsersDb, getUserDb, getUserEmailDb, registerUserDb, filteredRolesDb, updateUserDb}
