@@ -1,17 +1,17 @@
 <template lang="">
     <section id="manage-profile">
-    <AsideNav/>
+    <AsideNav  v-if="!isMobile()"/>
         <main id="mp-content">
             <div class="mp-dash-row">
                 <div class="mp-dash-col">
                 <h1 class="mp-row-head">Manage Profile</h1>
                 <div class="mp-row-details">
-                    <input type="text" placeholder="First Name" class="area1">
-                    <input type="text" placeholder="Middle Name(optional)" class="area1">
-                    <input type="text" placeholder="Surname" class="area1">
-                    <input type="text" placeholder="Role/Position">
-                    <input type="text" placeholder="Profile Url" class="area3">
-                    <button>Save Changes</button>
+                    <input type="text" placeholder="First Name" class="area1" v-model="fName">
+                    <input type="text" placeholder="Middle Name(optional)" class="area1" v-model="mName">
+                    <input type="text" placeholder="Surname" class="area1" v-model="lName">
+                    <input type="text" placeholder="Role/Position" v-model="role">
+                    <input type="text" placeholder="Profile Url" class="area3" v-model="pUrl">
+                    <button @click="editUser()">Save Changes</button>
                 </div>
             </div>
                 
@@ -20,57 +20,61 @@
                 <div class="mp-dash-col">
                 <h1 class="mp-row-head">Manage Schedule</h1>
                 <div class="mp-row-schedule" >
-                    <input type="date">
-                    <button @click="dateCheck=2">Load Schedule</button>
-                    <button v-show="dateCheck==2">Save Changes</button>
+                    <input type="date" v-model="inputDate">
+                    <button @click="inputDate?dateCheck=2:dateCheck=1">Load Schedule</button>
+                    <button v-show="dateCheck==2" @click="myChildMethod">Save Changes</button>
                 </div>
-                <div class="slot-template" v-show="dateCheck==2">
-                    <div class="slot-card">
-                        <div class="slot-desc">0800-0900</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
-                    <div class="slot-card">
-                        <div class="slot-desc">0900-1000</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
-                    <div class="slot-card">
-                        <div class="slot-desc">1000-1100</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
-                    <div class="slot-card">
-                        <div class="slot-desc">1100-1200</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
-                    <div class="slot-card">
-                        <div class="slot-desc">1200-1300</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
-                    <div class="slot-card">
-                        <div class="slot-desc">1300-1400</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
-                    <div class="slot-card">
-                        <div class="slot-desc">1500-1600</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
-                    <div class="slot-card">
-                        <div class="slot-desc">1600-1700</div>
-                        <div class="slot-input"><input type="number" value="0" max="60" min="0" step="5"></div>
-                    </div>
+                <div class="slot-template" v-show="dateCheck==2" v-for="slot in $store.state.slots" :key="slot">
+                <time-slot :date="inputDate" :id="slot.slot_id" ref="childComp" ><template #slot-desc>{{slot.slot_name}}</template></time-slot>
+                 
                 </div>
             </div>
             </div>
         </main>
+        <MobileNavigator v-if="isMobile()"/>
     </section>
 </template>
 <script>
 import AsideNav from '@/components/AsideNav.vue';
+import TimeSlot from '@/components/TimeSlot.vue';
+import MobileNavigator from '@/components/MobileNavigator.vue';
 export default {
-    components:{AsideNav},
+    components:{AsideNav,TimeSlot,MobileNavigator},
     data() {
         return {
-            dateCheck: 1
+            dateCheck: 1,
+            inputDate:null,
+
+            fName:null,
+            mName:null,
+            lName:null,
+            role:null,
+            pUrl:null,
         }
+    },
+    methods:{
+        myChildMethod(){
+            this.$refs.childComp.forEach(child=>{
+                if(child.myMethod){
+                    child.myMethod()
+                }
+            })
+        },
+        callSlots(){
+        //   console.log('imworkingfghjk')
+          this.$store.dispatch('fetchSlots')
+        },
+        editUser(){
+            this.$store.dispatch('editUser',{first_name: this.fName,middle_name: this.mName,last_name: this.lName,user_role: this.role, user_profile:this.pUrl})
+        },
+        isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    },
+    },
+    mounted() {
+      this.callSlots()
     },
     
 }
@@ -165,6 +169,18 @@ export default {
     color:#7E7E7E;
     font-weight:400;
 }
-
+@media only screen and (max-width:800px){
+    #manage-profile{
+        flex-direction: column;
+    }
+    .mp-row-details{
+        display: flex;
+        flex-direction: column;
+    }
+    main{
+        height:90dvh;
+        overflow-y: scroll;
+    }
+}
     
 </style>

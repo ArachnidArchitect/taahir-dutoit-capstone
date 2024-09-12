@@ -1,6 +1,6 @@
 <template lang="">
     <section id="users"  v-if="$cookies.get('token')">
-    <AsideNav/>
+        <AsideNav  v-if="!isMobile()"/>
     <main id="users-cont">
         <section id='users-staff' class="users-section" v-if="staff().length>0">
             <div class="users-col">
@@ -25,7 +25,7 @@
                 <div class="users-card-head"><h1>Students/Alumni</h1></div>
                 <div class="users-grid">
                     <div class="users-card" v-for="user in students()" :key="user">
-                        <div class="users-card-col"><img :src="profile" alt=""></div>
+                        <div class="users-card-col"><img :src="user.user_profile" alt=""></div>
                         <div class="users-card-col">
                             <div class="users-card-row card-row-name">{{user.first_name +' '+ user.last_name}}</div>
                             <div class="users-card-row card-row-title">{{user.user_role}}</div>
@@ -39,6 +39,7 @@
         <h1>just loading</h1>
     </div>
     </main>
+    <MobileNavigator v-if="isMobile()"/>
     </section>
     <div v-else>
 
@@ -48,15 +49,15 @@
 </template>
 <script>
 import AsideNav from '@/components/AsideNav.vue';
+import MobileNavigator from '@/components/MobileNavigator.vue';
 // import LoaderComp from '@/components/LoadingComp.vue';
 
 export default {
-    components:{ AsideNav},
+    components:{ AsideNav, MobileNavigator},
     data() {
         return {
             loading1: true,
             loading2: true,
-            profile:'https://cdn-icons-png.flaticon.com/512/10412/10412383.png'
         }
     },
   methods:{
@@ -74,6 +75,11 @@ export default {
         },
         filteredRoles(role){
       return this.$store.dispatch('filteredRoles',role);  
+    },
+    isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
     },
 
   },
@@ -133,4 +139,10 @@ export default {
     color:#1C61DC;
     text-align:left;
 }
+@media only screen and (max-width:800px){
+    #users{
+        flex-direction: column;
+    }
+}
+
 </style>
