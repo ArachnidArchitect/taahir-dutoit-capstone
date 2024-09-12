@@ -80,6 +80,7 @@ export default createStore({
      }
     },
     async loginUser({commit},{email_add, user_pass}) {
+      console.log(3)
       // POST request using fetch with async/await
       console.log(email_add, user_pass)
       const requestOptions = {
@@ -93,8 +94,8 @@ export default createStore({
       try{
       let token = data.token
       cookies.set('token', token, '1h')
-      alert(data.message)
-      if (data.message == 'You have signed in successfully!') {
+      alert(data.message)  
+      if (data.message == 'You have signed in successfully! :)') {
         commit('setServeResponse', token)
         await router.push('/dashboard')   
       }
@@ -115,8 +116,10 @@ export default createStore({
       console.log('test234'+first_name, middle_name, last_name, user_role, email_add, user_pass)
       const response = await fetch("http://localhost:5005/users/register", requestOptions);
       const data = await response.json();
-
       alert(data.message)
+      if(data.message.includes(':)')){
+        await router.push('/login')
+      }
       commit('setServeResponse', data)
     },
     async showCont({commit}){

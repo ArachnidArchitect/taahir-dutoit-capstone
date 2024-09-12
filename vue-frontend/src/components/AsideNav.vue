@@ -16,11 +16,14 @@
                 </div>
             </div>
             <div class="dash-nav-row">
-                <button class="nav-btn"><router-link to="/">Sign Out</router-link></button>
+                <button class="nav-btn" @click="signOut();"><router-link to="/">Sign Out</router-link></button>
             </div>
         </aside>       
 </template>
 <script>
+    import router from '@/router'
+import cookies from 'vue-cookies'
+
 export default{
     data() {
         return {
@@ -30,12 +33,18 @@ export default{
         }
     },
     methods: {
+        async signOut(){
+            cookies.remove('token')
+            alert('Sign out was successful! :)')
+            await router.push('/') 
+        },
          async showCont(){
            return this.$store.dispatch('showCont')
         },
         async currUser(){
              await this.showCont()
             let user = this.$store.state.currUser
+            this.profile = user.user_profile
             this.fullName = user.first_name + ' '+user.last_name
             this.title = user.user_role
             return this.$store.state.currUser

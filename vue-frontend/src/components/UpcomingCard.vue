@@ -14,3 +14,10 @@
                         </div>
                     </div>
 </template>
+<style>
+@media only screen and (max-width:800px){
+    .upcoming-card-title{
+        font-size: 10px;
+    }
+}
+</style>

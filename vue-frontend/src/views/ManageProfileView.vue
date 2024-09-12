@@ -1,6 +1,6 @@
 <template lang="">
     <section id="manage-profile">
-    <AsideNav/>
+    <AsideNav  v-if="!isMobile()"/>
         <main id="mp-content">
             <div class="mp-dash-row">
                 <div class="mp-dash-col">
@@ -31,13 +31,15 @@
             </div>
             </div>
         </main>
+        <MobileNavigator v-if="isMobile()"/>
     </section>
 </template>
 <script>
 import AsideNav from '@/components/AsideNav.vue';
 import TimeSlot from '@/components/TimeSlot.vue';
+import MobileNavigator from '@/components/MobileNavigator.vue';
 export default {
-    components:{AsideNav,TimeSlot},
+    components:{AsideNav,TimeSlot,MobileNavigator},
     data() {
         return {
             dateCheck: 1,
@@ -64,7 +66,12 @@ export default {
         },
         editUser(){
             this.$store.dispatch('editUser',{first_name: this.fName,middle_name: this.mName,last_name: this.lName,user_role: this.role, user_profile:this.pUrl})
-        }
+        },
+        isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    },
     },
     mounted() {
       this.callSlots()
@@ -162,6 +169,18 @@ export default {
     color:#7E7E7E;
     font-weight:400;
 }
-
+@media only screen and (max-width:800px){
+    #manage-profile{
+        flex-direction: column;
+    }
+    .mp-row-details{
+        display: flex;
+        flex-direction: column;
+    }
+    main{
+        height:90dvh;
+        overflow-y: scroll;
+    }
+}
     
 </style>

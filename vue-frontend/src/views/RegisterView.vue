@@ -37,8 +37,20 @@ export default {
     },
     methods:{
         registerUser(){
-            console.log(this.fname,this.mname,this.lname,this.role,this.email,this.password);
+            try {
+                if(!this.fname) throw ("Please fill in the first name field before continuing :(")
+                if(!this.lname) throw ("Please fill in the last name field before continuing :(")
+                if(!this.role) throw ("Please select your role before continuing :(")
+                if(!this.email) throw ("Please fill in the email field before continuing :(")
+                if(!this.password) throw ("Please fill in the password field before continuing :(")
+
+                
+
             this.$store.dispatch('registerUser', {first_name:this.fname,middle_name:this.mname,last_name:this.lname,user_role:this.role,email_add:this.email,user_pass:this.password })
+                
+            } catch (error) {
+                alert(error)
+            }
         }
     }
 }
@@ -107,6 +119,16 @@ export default {
         background-size: contain;
         background-position-y: 250%;
     }
-    /* option */
+    @media only screen and (max-width:800px){
+        .register-right{
+            display:none
+        }
+        .register-col{
+            width:100dvw
+        }
+        .register-form{
+            width: 90%;
+        }
+    }
 
 </style>
