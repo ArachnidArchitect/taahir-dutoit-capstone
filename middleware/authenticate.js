@@ -7,13 +7,14 @@ config()
 const checkUser = async (req,res, next)=>{
   let {email_add, user_pass}= req.body
   console.log(email_add, user_pass)
-let storedPassword = await getUserEmailDb(email_add)
+  let storedPassword = await getUserEmailDb(email_add)
+  console.log(storedPassword)
 if(!storedPassword){
   res.json({
     message:"Looks like you haven't signed up yet :("
  })
 }else{
-console.log(storedPassword.user_pass)
+console.log(storedPassword.user_id)
 compare(user_pass, storedPassword.user_pass, (err, hash)=>{
   if (!hash) {
     res.json({
@@ -21,7 +22,7 @@ compare(user_pass, storedPassword.user_pass, (err, hash)=>{
    })
     res.status(400)
   } else{
-    let token = jwt.sign({ email_add:email_add}, process.env.TOKEN_SECRET, { expiresIn: '1h' })
+    let token = jwt.sign({id:storedPassword.user_id, email_add:email_add}, process.env.TOKEN_SECRET, { expiresIn: '1h' })
     req.body.token = token
     console.log(token)
     res.status(200)

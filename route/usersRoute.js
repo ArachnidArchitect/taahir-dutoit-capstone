@@ -1,4 +1,4 @@
-import {getUsers, getUserEmail, registerUser,loginUser, filteredRoles} from '../controller/usersCont.js'
+import {getUsers, getUserEmail, registerUser,loginUser, filteredRoles,updateUser} from '../controller/usersCont.js'
 import {getUserEmailDb} from '../model/userDb.js'
 import{checkUser, verifyToken} from '../middleware/authenticate.js'
 import express from 'express'
@@ -14,6 +14,7 @@ router.get('/auth',verifyToken, async (req,res)=>{
 })
 router.post('/login',checkUser,loginUser)
 router.post('/register',registerUser)
+router.patch('/update', verifyToken, updateUser)
 
 export default router
 
