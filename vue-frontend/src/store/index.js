@@ -8,7 +8,7 @@ export default createStore({
     users:[],
     serveResponse:null,
     showCont:0,
-    availabilities:null,
+    availabilities:[],
     currUser:null,
     bookings:[],
     students:[],
@@ -133,6 +133,21 @@ export default createStore({
         console.log('function 1 is complete')
          
     },
+    async editUser({commit}, {first_name, middle_name, last_name, user_role, user_profile}){
+      const requestOptions = {
+        method: 'PATCH',
+        credentials:'include',
+        headers: { 'Content-Type': 'application/json',
+          'cookie': cookies.get('token')
+         },
+        body: JSON.stringify({first_name, middle_name, last_name, user_role, user_profile })
+    }
+    let response = await fetch('http://localhost:5005/users/update', requestOptions)
+    let data = await response.json()
+    // needs error handling - dont forget about it
+    alert(data.message)
+    commit('setServeResponse', data)
+    },
 // availabilities
 async getAvailability({commit}, {id, month}){
   const requestOptions = {
@@ -144,7 +159,10 @@ async getAvailability({commit}, {id, month}){
   }
     let response = await fetch(`http://localhost:5005/availabilities/fetchOpenings/${id}/${month}`, requestOptions)
     let data = await response.json()
-    console.log(data)
+    if (data.length==0) {
+      data = {dataEmpty:true}
+    }
+    console.log('aaaaa',data)
     commit('setAvailabilities', data)
   },
 

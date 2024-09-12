@@ -1,5 +1,5 @@
 <template>
-    <div class="slot-card">
+    <div class="slot-card" :style= "[this.time>0 ? {'background-color':'#c7f3a7'} : {'background-color':'#ff000041'}]">
       <div class="slot-desc"><slot name="slot-desc"></slot></div>
       <div class="slot-input">
         <input type="number" v-model="time"  max="60" min="0" step="5" />

@@ -6,12 +6,12 @@
                 <div class="mp-dash-col">
                 <h1 class="mp-row-head">Manage Profile</h1>
                 <div class="mp-row-details">
-                    <input type="text" placeholder="First Name" class="area1" >
-                    <input type="text" placeholder="Middle Name(optional)" class="area1">
-                    <input type="text" placeholder="Surname" class="area1">
-                    <input type="text" placeholder="Role/Position">
-                    <input type="text" placeholder="Profile Url" class="area3">
-                    <button >Save Changes</button>
+                    <input type="text" placeholder="First Name" class="area1" v-model="fName">
+                    <input type="text" placeholder="Middle Name(optional)" class="area1" v-model="mName">
+                    <input type="text" placeholder="Surname" class="area1" v-model="lName">
+                    <input type="text" placeholder="Role/Position" v-model="role">
+                    <input type="text" placeholder="Profile Url" class="area3" v-model="pUrl">
+                    <button @click="editUser()">Save Changes</button>
                 </div>
             </div>
                 
@@ -21,7 +21,7 @@
                 <h1 class="mp-row-head">Manage Schedule</h1>
                 <div class="mp-row-schedule" >
                     <input type="date" v-model="inputDate">
-                    <button @click="dateCheck=2">Load Schedule</button>
+                    <button @click="inputDate?dateCheck=2:dateCheck=1">Load Schedule</button>
                     <button v-show="dateCheck==2" @click="myChildMethod">Save Changes</button>
                 </div>
                 <div class="slot-template" v-show="dateCheck==2" v-for="slot in $store.state.slots" :key="slot">
@@ -42,6 +42,12 @@ export default {
         return {
             dateCheck: 1,
             inputDate:null,
+
+            fName:null,
+            mName:null,
+            lName:null,
+            role:null,
+            pUrl:null,
         }
     },
     methods:{
@@ -55,6 +61,9 @@ export default {
         callSlots(){
         //   console.log('imworkingfghjk')
           this.$store.dispatch('fetchSlots')
+        },
+        editUser(){
+            this.$store.dispatch('editUser',{first_name: this.fName,middle_name: this.mName,last_name: this.lName,user_role: this.role, user_profile:this.pUrl})
         }
     },
     mounted() {
