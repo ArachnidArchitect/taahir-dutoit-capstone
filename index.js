@@ -8,7 +8,7 @@ const  app = express()
 // middleware goes here
 app.use(express.json())
 app.use(cors({
-    origin:'http://localhost:8080',
+    origin:'*',
     credentials:true,
     headers:['Content-type', 'Authorization']
 }))
