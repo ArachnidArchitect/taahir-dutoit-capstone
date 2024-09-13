@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 import cookies from 'vue-cookies'
 import router from '@/router'
 
-
+// const apiUrl = "http://localhost:5005"
+const apiUrl = ""
 export default createStore({
   state: {
     users:[],
@@ -53,7 +54,7 @@ export default createStore({
         headers: { "Content-Type": "application/json" ,
           'cookie': cookies.get('token')
         }}
-      const response = await fetch('http://localhost:5005/users', requestOptions)
+      const response = await fetch(`${apiUrl}/users`, requestOptions)
       const data = await response.json()
      if (!data.message) {
        commit('setUsers', data)
@@ -68,7 +69,7 @@ export default createStore({
         headers: { "Content-Type": "application/json" ,
           'cookie': cookies.get('token')
         }}
-      const response = await fetch('http://localhost:5005/users/filtered/'+role, requestOptions)
+      const response = await fetch(`${apiUrl}/users/filtered/${role}`, requestOptions)
       const data = await response.json()
       console.log('students', data)
      if (!data.message) {
@@ -89,7 +90,7 @@ export default createStore({
         },
         body: JSON.stringify({ email_add, user_pass})
       };
-      const response = await fetch("http://localhost:5005/users/login", requestOptions);
+      const response = await fetch(`${apiUrl}/users/login`, requestOptions);
       const data = await response.json();
       try{
       let token = data.token
@@ -114,7 +115,7 @@ export default createStore({
         body:JSON.stringify({first_name, middle_name, last_name, user_role, email_add, user_pass})
       }
       console.log('test234'+first_name, middle_name, last_name, user_role, email_add, user_pass)
-      const response = await fetch("http://localhost:5005/users/register", requestOptions);
+      const response = await fetch(`${apiUrl}/users/register`, requestOptions);
       const data = await response.json();
       alert(data.message)
       if(data.message.includes(':)')){
@@ -129,7 +130,7 @@ export default createStore({
         headers: { "Content-Type": "application/json" ,
           'cookie': cookies.get('token')
         }}
-        let response = await fetch('http://localhost:5005/users/auth', requestOptions)
+        let response = await fetch(`${apiUrl}/users/auth`, requestOptions)
         let data =  await response.json()
         console.log(data)
         commit('setCurrUser', data)
@@ -145,7 +146,7 @@ export default createStore({
          },
         body: JSON.stringify({first_name, middle_name, last_name, user_role, user_profile })
     }
-    let response = await fetch('http://localhost:5005/users/update', requestOptions)
+    let response = await fetch(`${apiUrl}/users/update`, requestOptions)
     let data = await response.json()
     // needs error handling - dont forget about it
     alert(data.message)
@@ -160,7 +161,7 @@ async getAvailability({commit}, {id, month}){
       'cookie': cookies.get('token')
     }
   }
-    let response = await fetch(`http://localhost:5005/availabilities/fetchOpenings/${id}/${month}`, requestOptions)
+    let response = await fetch(`${apiUrl}/availabilities/fetchOpenings/${id}/${month}`, requestOptions)
     let data = await response.json()
     if (data.length==0) {
       data = {dataEmpty:true}
@@ -170,7 +171,7 @@ async getAvailability({commit}, {id, month}){
   },
 
 async fetchSlots({commit}){
-    let data = await (await fetch('http://localhost:5005/availabilities/fetchSlots')).json()
+    let data = await (await fetch(`${apiUrl}/availabilities/fetchSlots`)).json()
     console.log('this is slots:',data)
     commit('setSlots', data)
 
@@ -184,7 +185,7 @@ async setAvailabilities({commit},{slot_id,date,minutes_available}){
     },
     body: JSON.stringify({slot_id,date,minutes_available})
   }
-  const response = await fetch("http://localhost:5005/availabilities/insert", requestOptions);
+  const response = await fetch(`${apiUrl}/availabilities/insert`, requestOptions);
   const data = await response.json();
   try{
   alert(data.message)
@@ -206,7 +207,7 @@ async setAvailabilities({commit},{slot_id,date,minutes_available}){
       },
       body:JSON.stringify({recipient, requesting, app_date, slot_id, min_allocated, topic})
     }
-    let response = await fetch("http://localhost:5005/availabilities/book", requestOptions)
+    let response = await fetch(`${apiUrl}/availabilities/book`, requestOptions)
     let data = await response.json()
     try{
       alert(data.message)
@@ -230,7 +231,7 @@ async setAvailabilities({commit},{slot_id,date,minutes_available}){
       }
     }
     const id = this.state.currUser.user_id
-    let response = await fetch(`http://localhost:5005/availabilities/myBookings/${id}`, requestOptions)
+    let response = await fetch(`${apiUrl}/availabilities/myBookings/${id}`, requestOptions)
     let data = await response.json()
       commit('setBookings', data)
      

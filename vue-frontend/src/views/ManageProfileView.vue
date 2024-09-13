@@ -1,7 +1,7 @@
 <template lang="">
     <section id="manage-profile">
     <AsideNav  v-if="!isMobile()"/>
-        <main id="mp-content">
+        <main id="mp-content" v-if="$cookies.get('token')">
             <div class="mp-dash-row">
                 <div class="mp-dash-col">
                 <h1 class="mp-row-head">Manage Profile</h1>
@@ -31,6 +31,11 @@
             </div>
             </div>
         </main>
+        <div v-else>
+
+<h1>Looks like you've been logged out</h1>
+<h5>try  <router-link to="/login">signing in</router-link> again</h5>
+</div>
         <MobileNavigator v-if="isMobile()"/>
     </section>
 </template>

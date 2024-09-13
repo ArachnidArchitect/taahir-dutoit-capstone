@@ -1,7 +1,7 @@
 <template lang="">
-    <section id="users"  v-if="$cookies.get('token')">
+    <section id="users"  >
         <AsideNav  v-if="!isMobile()"/>
-    <main id="users-cont">
+    <main id="users-cont" v-if="$cookies.get('token')">
         <section id='users-staff' class="users-section" v-if="staff().length>0">
             <div class="users-col">
                 <div class="users-card-head"><h1>Staff</h1></div>
@@ -17,8 +17,7 @@
             </div>
         </section>
         <div v-else>
-            <!-- card placeholders will go here while loading -->
-        <h1>just loading</h1>
+            <LoadingComp/>
     </div>
         <section id='users-students' class="users-section" v-if="students().length>0">
             <div class="users-col">
@@ -35,25 +34,25 @@
             </div>
         </section>
         <div v-else>
-            <!-- card placeholders will go here while loading -->
-        <h1>just loading</h1>
+        <LoadingComp/>
     </div>
     </main>
-    <MobileNavigator v-if="isMobile()"/>
-    </section>
     <div v-else>
 
 <h1>Looks like you've been logged out</h1>
 <h5>try  <router-link to="/login">signing in</router-link> again</h5>
 </div>
+    
+    </section>
+<MobileNavigator v-if="isMobile()"/>
 </template>
 <script>
 import AsideNav from '@/components/AsideNav.vue';
 import MobileNavigator from '@/components/MobileNavigator.vue';
-// import LoaderComp from '@/components/LoadingComp.vue';
+import LoadingComp from '@/components/LoadingComp.vue';
 
 export default {
-    components:{ AsideNav, MobileNavigator},
+    components:{ AsideNav, MobileNavigator,LoadingComp},
     data() {
         return {
             loading1: true,

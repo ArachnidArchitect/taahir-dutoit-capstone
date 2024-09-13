@@ -3,15 +3,16 @@
         <booking-modal v-if="booking"></booking-modal>
     <AsideNav v-if="!isMobile()" />
         <main id="dash-content" v-if="$cookies.get('token')">
-            <div class="main-dash-cont">
+            <div class="main-dash-cont" >
                 <div class="upcoming-head">
                     <h2>Upcoming Meetings</h2>
                     <!-- this should be a component attached to a modal -->
                     <button @click="booking = !booking" id="new-meeting-btn">New Meeting</button>
                     
                 </div>
-                <div class="upcoming-content" v-for="booking in allBookings()" :key="booking">
-                    <upcoming-card>
+                <div v-if="allBookings().length>0">
+                <div class="upcoming-content" v-for="booking in allBookings()" :key="booking" >
+                    <upcoming-card> 
                         <template #recipient>{{booking.recipient_name}}</template>
                         <template #requesting>{{booking.requesting_name}}</template>
                         <template #type>Physical</template>
@@ -22,17 +23,27 @@
                     </upcoming-card>
                 </div>
             </div>
+                <div v-else>
+                    <LoadingComp/>
+                </div>
+            </div>
         </main>
-        <MobileNavigator v-if="isMobile()"/>
+        <div v-else>
+
+<h1>Looks like you've been logged out</h1>
+<h5>try  <router-link to="/login">signing in</router-link> again</h5>
+</div>
+<MobileNavigator v-if="isMobile()"/>
     </section>
 </template>
 <script>
-import AsideNav from '@/components/AsideNav.vue';
-import UpcomingCard from '@/components/UpcomingCard.vue';
-import BookingModal from '@/components/BookingModalComp.vue';
-import MobileNavigator from '@/components/MobileNavigator.vue';
+import AsideNav from '../components/AsideNav.vue';
+import UpcomingCard from '../components/UpcomingCard.vue';
+import BookingModal from '../components/BookingModalComp.vue';
+import MobileNavigator from '../components/MobileNavigator.vue';
+import LoadingComp from '@/components/LoadingComp.vue';
 export default {
-    components:{ AsideNav,UpcomingCard, BookingModal, MobileNavigator },
+    components:{ AsideNav,UpcomingCard, BookingModal, MobileNavigator, LoadingComp },
     data() {
         return {
             booking:false,
