@@ -34,6 +34,8 @@ compare(user_pass, storedPassword.user_pass, (err, hash)=>{
 }
 
 const verifyToken =(req,res,next)=>{
+  console.log(req.headers);
+  
   let {cookie} = req.headers
   let token = cookie && cookie.split('token=')[1]
   console.log('headers:'+JSON.stringify(cookie))

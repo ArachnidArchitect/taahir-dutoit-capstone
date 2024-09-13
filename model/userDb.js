@@ -24,4 +24,8 @@ const registerUserDb = async(first_name, middle_name, last_name, user_role, emai
 const updateUserDb = async(user_id, first_name, middle_name, last_name, user_role, user_profile)=>{
     await pool.query('update users set first_name=?, middle_name=?, last_name=?, user_role=?, user_profile=? where user_id=?',[first_name, middle_name, last_name, user_role, user_profile,user_id])
 }
-export {getUsersDb, getUserDb, getUserEmailDb, registerUserDb, filteredRolesDb, updateUserDb}
+const resetPassDb = async(email_add, user_pass)=>{
+    await pool.query('UPDATE users SET user_pass = ? WHERE email_add = ?', [user_pass, email_add])
+}
+
+export {getUsersDb, getUserDb, getUserEmailDb, registerUserDb, filteredRolesDb, updateUserDb, resetPassDb}

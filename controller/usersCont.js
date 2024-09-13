@@ -1,5 +1,5 @@
 import { hash } from "bcrypt";
-import { getUsersDb, getUserDb,getUserEmailDb, registerUserDb, filteredRolesDb, updateUserDb } from "../model/userDb.js";
+import { getUsersDb, getUserDb,getUserEmailDb, registerUserDb, filteredRolesDb, updateUserDb, resetPassDb } from "../model/userDb.js";
 
 const getUsers = async (req,res)=>{
    res.json(await getUsersDb())
@@ -70,5 +70,24 @@ const updateUser = async(req,res)=>{
    }
 
 }
+const resetPass = async(req,res)=>{
+   try {
+      let {email_add, user_pass} = req.body
+      if(!email_add || !user_pass) throw('Missing data in the input fields :(')
+         let hashedPassword = hash(user_pass, 10, async (err, hash)=>{
+            if(err){
+               throw (err)
+            }else{ 
+               await resetPassDb(email_add, hash)
+               console.log(hash)
+               res.status(200)
+            res.json({message:`You have been successfully registered! Your new password is ${user_pass} :) `})}
+               })
+      }catch(error){
+         console.log(error)
+         res.status(500)
+         res.json({message:error}) 
+      }
+}
 
-export {getUsers,getUserEmail, registerUser,loginUser, filteredRoles, updateUser}
+export {getUsers,getUserEmail, registerUser,loginUser, filteredRoles, updateUser, resetPass}
