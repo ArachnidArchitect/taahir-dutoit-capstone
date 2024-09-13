@@ -36,14 +36,14 @@ compare(user_pass, storedPassword.user_pass, (err, hash)=>{
 const verifyToken =(req,res,next)=>{
   console.log(req.headers);
   
-  let {cookie} = req.headers
-  let token = cookie && cookie.split('token=')[1]
-  console.log('headers:'+JSON.stringify(cookie))
+  let token = req.headers.authorization
+  // let token = cookie && cookie.split('token=')[1]
+  // console.log('headers:'+JSON.stringify(cookie))
   console.log('token is'+token)
 
   jwt.verify(token, process.env.TOKEN_SECRET,(err,decoded)=>{
       if(err){
-          res.json({message:'Token has expired', error: err, cookie:cookie})
+          res.json({message:'Token has expired', error: err, cookie:token})
           return
       }
       
