@@ -6,6 +6,7 @@ import FaqView from '../views/FaqView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import ManageProfileView from '../views/ManageProfileView.vue'
 import UsersView from '../views/UsersView.vue'
+import BookingView from '../views/BookingView.vue'
 
 const routes = [
   {
@@ -50,6 +51,11 @@ const routes = [
     path: '/users',
     name: 'users',
     component: UsersView
+  },
+  {
+    path: '/booking',
+    name: 'booking',
+    component: BookingView
   },
 ]
 

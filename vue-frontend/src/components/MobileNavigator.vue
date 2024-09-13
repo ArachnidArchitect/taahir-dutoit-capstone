@@ -2,7 +2,7 @@
     <div class="mobile-navigator-cont"> 
         <button class="mobile-nav-btn" @click="redirect('manage-profile')" alt="profile"><img :src="profile" alt="" width="25px"></button>
         <button class="mobile-nav-btn" @click="redirect('dashboard')" alt="dashboard"><i class="fa-solid fa-bars-staggered"></i></button>
-        <button class="mobile-nav-btn"  alt="new meeting"><i class="fa-solid fa-calendar-plus"></i></button>
+        <button class="mobile-nav-btn new-meeting-btn" @click="redirect('booking')" alt="new meeting"><i class="fa-solid fa-calendar-plus" style="color:#4f6819;"></i></button>
         <button class="mobile-nav-btn" @click="redirect('users')" alt="Alumni/Staff"><i class="fa-solid fa-user-group"></i></button>
         <button class="mobile-nav-btn" @click="signOut()" alt="Sign Out"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
@@ -61,5 +61,14 @@ export default{
     background-color:rgba(144, 187, 244, 0.271);
     width:20%;
     border:1px solid #005BFF;
+}
+.mobile-nav-btn:active{
+    background-color:#AEC9FA;
+}
+.new-meeting-btn{
+    background-color:#b6dc62;  
+}
+.new-meeting-btn:active{
+    background-color:#88ad38; 
 }
 </style>

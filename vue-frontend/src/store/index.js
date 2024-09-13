@@ -52,6 +52,7 @@ export default createStore({
         method: "GET",
         credentials:'include',
         headers: { "Content-Type": "application/json" ,
+          "Authorization": `${cookies.get('token')}`,
           'cookie': cookies.get('token')
         }}
       const response = await fetch(`${apiUrl}/users`, requestOptions)
@@ -67,6 +68,7 @@ export default createStore({
         method: "GET",
         credentials:'include',
         headers: { "Content-Type": "application/json" ,
+          "Authorization": `${cookies.get('token')}`,
           'cookie': cookies.get('token')
         }}
       const response = await fetch(`${apiUrl}/users/filtered/${role}`, requestOptions)
@@ -110,6 +112,7 @@ export default createStore({
         method: "POST",
         credentials:'include',
         headers: { "Content-Type": "application/json" ,
+          "Authorization": `${cookies.get('token')}`,
           'cookie': cookies.get('token')
         },
         body:JSON.stringify({first_name, middle_name, last_name, user_role, email_add, user_pass})
@@ -128,6 +131,7 @@ export default createStore({
         method: "GET",
         credentials:'include',
         headers: { "Content-Type": "application/json" ,
+          "Authorization": `${cookies.get('token')}`,
           'cookie': cookies.get('token')
         }}
         let response = await fetch(`${apiUrl}/users/auth`, requestOptions)
@@ -142,6 +146,7 @@ export default createStore({
         method: 'PATCH',
         credentials:'include',
         headers: { 'Content-Type': 'application/json',
+          "Authorization": `${cookies.get('token')}`,
           'cookie': cookies.get('token')
          },
         body: JSON.stringify({first_name, middle_name, last_name, user_role, user_profile })
@@ -152,12 +157,29 @@ export default createStore({
     alert(data.message)
     commit('setServeResponse', data)
     },
+    async resetPass({commit}, {email_add, user_pass}){
+      const requestOptions = {
+        method: 'PATCH',
+        credentials:'include',
+        headers: { 'Content-Type': 'application/json',
+          "Authorization": `${cookies.get('token')}`,
+          'cookie': cookies.get('token')
+         },
+        body: JSON.stringify({email_add, user_pass})
+      }
+      let response = await fetch(`${apiUrl}/users/reset`, requestOptions)
+      let data = await response.json()
+      // needs error handling - dont forget about it
+      alert(data.message)
+      commit('setServeResponse', data)
+      },
 // availabilities
 async getAvailability({commit}, {id, month}){
   const requestOptions = {
     method: "GET",
     credentials:'include',
     headers: { "Content-Type": "application/json" ,
+      "Authorization": `${cookies.get('token')}`,
       'cookie': cookies.get('token')
     }
   }
@@ -181,6 +203,7 @@ async setAvailabilities({commit},{slot_id,date,minutes_available}){
     method: "POST",
     credentials:'include',
     headers: { "Content-Type": "application/json",
+      "Authorization": `${cookies.get('token')}`,
       'cookie': cookies.get('token')
     },
     body: JSON.stringify({slot_id,date,minutes_available})
@@ -203,6 +226,7 @@ async setAvailabilities({commit},{slot_id,date,minutes_available}){
       method: "POST",
       credentials:'include',
       headers: { "Content-Type": "application/json" ,
+        "Authorization": `${cookies.get('token')}`,
         'cookie': cookies.get('token')
       },
       body:JSON.stringify({recipient, requesting, app_date, slot_id, min_allocated, topic})
@@ -227,6 +251,7 @@ async setAvailabilities({commit},{slot_id,date,minutes_available}){
       method: "GET",
       credentials:'include',
       headers: { "Content-Type": "application/json" ,
+        "Authorization": `${cookies.get('token')}`,
         'cookie': cookies.get('token')
       }
     }

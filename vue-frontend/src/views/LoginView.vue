@@ -1,12 +1,16 @@
 <template lang="">
     <section id="login">
         <div class="login-form">
-            <h1 class="form-head">Login</h1>
+            <h1 class="form-head" v-if="state">Login</h1>
+            <h1 class="form-head" v-else>Reset Password</h1>
             <input type="email" placeholder="Email address" v-model="email_add" required>
-            <input type="password" placeholder="Password" v-model="password" required>
-            <button @click="loginUser()">Login</button>
+            <input type="password" v-if="state" placeholder="Password" v-model="password" required>
+            <input type="password" v-else placeholder="New Password" v-model="newPassword" required>
+            <button @click="loginUser()" v-if="state">Login</button>
+            <button @click="resetPass()" v-else>Reset</button>
             <label > Don't have an account yet? <router-link to="/register">Click here to register</router-link></label>
-            <label > Forgot your password? <a href="#forgottenPassword">Click here to reset it</a></label>
+            <label  v-if="state"> Forgot your password? <a href="#forgottenPassword" @click="state=!state">Click here to reset it</a></label>
+            <label v-else> <a href="#login"  @click="state=!state">Click here to login</a></label>
         </div>
     </section>
 </template>
@@ -14,16 +18,23 @@
 export default {
     data() {
         return {
+            state:true,
             email_add:'',
             password:'',
+            newPassword:'',
         }
     },
    methods: {
      loginUser() {
         if(!this.email_add || !this.password){alert ("Please make sure both fields are filled in")}
-        else{this.$store.dispatch('loginUser', {email_add:this.email_add, user_pass:this.password})}
+        else{this.$store.dispatch('loginUser', {email_add:this.email_add, user_pass:this.password}) 
+        console.log(this.email_add, this.password)}
+    },
+    resetPass(){
+        if(!this.email_add || !this.newPassword){alert ("Please make sure both fields are filled in:(")}
+        else{this.$store.dispatch('resetPass',{email_add:this.email_add, user_pass:this.newPassword})
     }
-    
+}
    }, 
 }
 </script>
