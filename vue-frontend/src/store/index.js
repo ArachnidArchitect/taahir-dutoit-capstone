@@ -3,7 +3,7 @@ import cookies from 'vue-cookies'
 import router from '@/router'
 
 // const apiUrl = "http://localhost:5005"
-const apiUrl = ""
+const apiUrl = "https://taahir-dutoit-capstone.onrender.com"
 export default createStore({
   state: {
     users:[],
