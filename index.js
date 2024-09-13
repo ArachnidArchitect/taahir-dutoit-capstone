@@ -9,7 +9,8 @@ const  app = express()
 app.use(express.json())
 app.use(cors({
     origin:'http://localhost:8080',
-    credentials:true
+    credentials:true,
+    headers:['Content-type', 'Authorization']
 }))
 app.use('/users', userRouter)
 app.use('/availabilities', availabilitiesRouter)
