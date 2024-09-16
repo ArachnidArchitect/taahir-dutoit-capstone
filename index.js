@@ -8,7 +8,7 @@ const  app = express()
 // middleware goes here
 app.use(express.json())
 app.use(cors({
-    origin:['http://localhost:8080','https://lc-booking-51405.web.app', '*'],
+    origin:['https://lc-booking-51405.web.app', '*'],
     credentials:true
 }))
 app.use('/users', userRouter)
