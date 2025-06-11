@@ -1,4 +1,5 @@
 <template>
+  <main-navbar/>
 <section id="home-hero">
   <div class="hero-left">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjXpRrLr2aCd3pkYQGMf31_zPz8jCpkh0stw&s" class="hero-logo" alt="lc-logo"></div>
@@ -12,13 +13,11 @@
 
 <script>
 // @ is an alias to /src
-
+import MainNavbar from '../components/MainNavbar.vue';
 
 export default {
-  
-  components: {
+    components:{MainNavbar},
     
-  }
 }
 </script>
 <style>
