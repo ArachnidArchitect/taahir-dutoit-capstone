@@ -13,13 +13,13 @@
             </ul> 
         </div>
         <div class="spacer-nav">
-            <div class="mobile-toggle">=</div>
+            <div class="mobile-toggle" @click="navBar('flex')">=</div>
 
         </div>
     </nav>
     <nav id="mobile-nav">
         <ul id="mobile-ul">
-                <li><img src="../assets/nav-logo.svg" id="mobile-logo" alt=""> <div class="close-toggle">></div></li>
+                <li><img src="../assets/nav-logo.svg" id="mobile-logo" alt=""> <div class="close-toggle" @click="navBar('none')">></div></li>
                 <li><router-link to="/register">Register</router-link></li>
                 <li><router-link to="/dashboard">Dashboard</router-link></li>
                 <li><router-link to="/faq">FAQ</router-link></li>
@@ -34,7 +34,13 @@ export default {
     methods: {
         async faqRoute(){
             await router.push('/faq') 
-        },}
+        },
+        navBar(status){
+            let mobileToggle = document.getElementById('mobile-nav');
+            mobileToggle.style.display= status
+            console.log(mobileToggle.style.display, 1)
+    }
+}
 }
 </script>
 <style scoped>
@@ -150,7 +156,8 @@ export default {
             align-items:center;
          }
          #mobile-nav{
-            display:flex;
+            /* chhange this to display flex when you want it to show */
+            display:none;
             justify-content: center;
             width:100vw;
             background-color:rgb(97, 96, 96);
