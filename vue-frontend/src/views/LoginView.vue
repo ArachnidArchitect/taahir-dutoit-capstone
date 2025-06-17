@@ -31,8 +31,7 @@ export default {
    methods: {
      loginUser() {
         if(!this.email_add || !this.password){alert ("Please make sure both fields are filled in")}
-        else{this.$store.dispatch('loginUser', {email_add:this.email_add, user_pass:this.password}) 
-        console.log(this.email_add, this.password)}
+        else{this.$store.dispatch('loginUser', {email_add:this.email_add, user_pass:this.password}) }
     },
     resetPass(){
         if(!this.email_add || !this.newPassword){alert ("Please make sure both fields are filled in:(")}
