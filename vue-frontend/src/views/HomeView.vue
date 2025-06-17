@@ -20,7 +20,7 @@ export default {
     
 }
 </script>
-<style>
+<style scoped>
 *{
   box-sizing: border-box;
   padding:0;
@@ -59,20 +59,42 @@ body{
 #hero-button{
   background-color:#92A94E;
   width:60%;
+  min-width: 335px;
   padding:1em;
   color:white;
   border-radius:28px;
-
+  border:none;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-style: normal;
   font-size:2ch;
+}
+a, a:visited, a:active{
+  text-decoration: none;
+  color:white
 }
 .hero-logo{
   width: 350px;
   height: 350px;
 }
 .hero-quote{font-weight: 600;}
+
+@media only screen and (max-width:720px){
+  .hero-left{
+    opacity: 10%;
+  }
+  .hero-right{
+    position:absolute;
+    margin: 0 auto;
+    min-width:300px;
+  }
+  #hero-button{
+    min-width: 250px;
+    padding:.5em;
+    font-weight: 600;
+  }
+}
+
 @media only screen and (max-width:800px){
   #hero-button{
     width:100%;

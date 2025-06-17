@@ -162,6 +162,7 @@ export default {
             width:100vw;
             background-color:rgb(97, 96, 96);
             position:absolute;
+            z-index:100;
             
 
          }
