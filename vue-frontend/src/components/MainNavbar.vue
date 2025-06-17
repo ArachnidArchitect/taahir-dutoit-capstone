@@ -63,6 +63,7 @@ export default {
         top:0;
         padding:2em;
         width:100%;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0));
         
     } 
     .logo{

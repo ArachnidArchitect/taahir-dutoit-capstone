@@ -1,4 +1,5 @@
 <template lang="">
+    <main-navbar/>
     <section id="login">
         <div class="login-form">
             <h1 class="form-head" v-if="state">Login</h1>
@@ -15,7 +16,10 @@
     </section>
 </template>
 <script>
+import MainNavbar from '../components/MainNavbar.vue';
+
 export default {
+    components:{MainNavbar},
     data() {
         return {
             state:true,

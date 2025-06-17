@@ -1,4 +1,5 @@
 <template lang="">
+    <main-navbar/>
     <section id="register">
         <div class="register-col">
             <div class="register-form">
@@ -18,12 +19,15 @@
             </div>
         </div>
         <div class="register-col register-right">
-
+            <img src="../assets/background-register.png">
         </div>
     </section>
 </template>
 <script>
+import MainNavbar from '../components/MainNavbar.vue';
+
 export default {
+    components:{MainNavbar},
     data() {
         return {
             fname:'',
@@ -61,12 +65,13 @@ export default {
         margin:0;
         padding:0;
     }
+ 
     #register{
         display: flex;
         justify-content: center;
         align-items:center;
         height: 100vh;
-        
+        margin-top:3em;
         font-family: "Poppins", system-ui;
         font-weight: 400;
         font-style: normal;
@@ -86,6 +91,7 @@ export default {
         align-items:center;
         height: 80%;
         width:50%;
+        min-width:420px;
 
         border-radius: 30px;
         padding:2em;
@@ -113,11 +119,19 @@ export default {
     .register-form>label{
         font-size:1ch;
     }
-    .register-right{
+    /* .register-right{
         background-image: url('../assets/background-register.png');
         background-repeat: no-repeat;
         background-size: contain;
         background-position-y: 250%;
+    } */
+     .register-right img{
+        width:85%;
+     }
+    @media only screen and (max-width:1024px){
+        .register-right{
+            display:none
+     }
     }
     @media only screen and (max-width:800px){
         .register-right{
